@@ -16,11 +16,21 @@ let col;
 async function connectDB() {
   if (!MONGO_URI) { console.log('[DB] No URI — in-memory mode'); return; }
   try {
-    const client = new MongoClient(MONGO_URI);
+    const client = new MongoClient(MONGO_URI, {
+      tls: true,
+      tlsAllowInvalidCertificates: true,
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+    });
     await client.connect();
     col = client.db('101010').collection('appdata');
-    console.log('[DB] MongoDB ✅');
-  } catch(e) { console.error('[DB]', e.message); }
+    console.log('[DB] MongoDB connected ✅');
+  } catch(e) {
+    console.error('[DB] Connection failed:', e.message);
+    console.log('[DB] Retrying in 10 seconds...');
+    setTimeout(connectDB, 10000);
+  }
 }
 let _mem = null;
 async function readData() {
