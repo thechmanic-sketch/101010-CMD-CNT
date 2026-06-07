@@ -1,7 +1,7 @@
 {
   "name": "101010-command-center",
-  "version": "3.0.0",
-  "description": "Personal command center — tracker, planner, projects, Telegram alerts",
+  "version": "4.0.0",
+  "description": "101010 Life Command Center — Powered by Techmanic",
   "main": "server.js",
   "scripts": { "start": "node server.js" },
   "dependencies": {
